@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private static Competition currentCompetition = new Competition("Trondheim - Oslo", 1130000, 3.0f, 50);
+    public static boolean anonymous = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
