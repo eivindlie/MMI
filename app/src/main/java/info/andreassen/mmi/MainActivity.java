@@ -13,9 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private static Competition currentCompetition = new Competition("Trondheim - Oslo", 1130000, 3.0f, 50);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        updateCompetition();
     }
 
     @Override
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_register_steps) {
             Intent intent = new Intent(this, RegisterStepsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
@@ -84,5 +93,34 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(data.getStringExtra("status")) {
+            case "competitionUpdated":
+                updateCompetition();
+                break;
+        }
+    }
+
+    private void updateCompetition() {
+        int walkedSteps = currentCompetition.getWalkedSteps();
+        int totalSteps = currentCompetition.getTotalSteps();
+        ((TextView) findViewById(R.id.cur_compo_name)).setText(currentCompetition.getName());
+        ((TextView) findViewById(R.id.cur_compo_steps)).setText(String.format(Locale.GERMANY, "%,d/%,d skritt", walkedSteps, totalSteps));
+        ((TextView) findViewById(R.id.cur_compo_days_left)).setText(currentCompetition.getDurationDays() + "d");
+        ((TextView) findViewById(R.id.steps_today)).setText(Integer.toString(walkedSteps));
+        ((TextView) findViewById(R.id.avg_steps)).setText(Integer.toString(walkedSteps));
+
+
+        ((RatingBar) findViewById(R.id.cur_compo_difficulty)).setRating(currentCompetition.getDifficulty());
+
+        ((ProgressBar) findViewById(R.id.cur_compo_progress)).setMax(totalSteps);
+        ((ProgressBar) findViewById(R.id.cur_compo_progress)).setProgress(walkedSteps);
+
+    }
+
+    public static Competition getCurrentCompetition() {
+        return currentCompetition;
     }
 }
