@@ -5,7 +5,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -16,33 +19,48 @@ import android.widget.TextView;
 import java.util.Locale;
 
 
-public class CompetitionView extends CardView {
+public class CompetitionView extends CardView implements View.OnClickListener {
 
     private LinearLayout layout;
+    private LinearLayout outerLayout;
     private TextView txtName;
     private TextView txtSteps;
     private ProgressBar progress;
     private RatingBar difficulty;
     private TextView duration;
+    private Button button;
+
+    private ButtonType buttonType;
 
     private Competition competition;
 
+    public CompetitionView(Context context, ButtonType buttonType) {
+        super(context);
+        buildView(context, null, 0, buttonType);
+    }
+
     public CompetitionView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        buildView(context, attrs, defStyleAttr);
+        buildView(context, attrs, defStyleAttr, ButtonType.NONE);
     }
 
     public CompetitionView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        buildView(context, attrs, 0);
+        buildView(context, attrs, 0, ButtonType.NONE);
     }
 
     public CompetitionView(Context context) {
         super(context);
-        buildView(context, null, 0);
+        buildView(context, null, 0, ButtonType.NONE);
     }
 
-    private void buildView(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void buildView(Context context, AttributeSet attrs, int defStyleAttr, ButtonType buttonType) {
+        this.buttonType = buttonType;
+
+        outerLayout = new LinearLayout(context, attrs, defStyleAttr);
+        outerLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        outerLayout.setOrientation(LinearLayout.VERTICAL);
+
         layout = new LinearLayout(context, attrs, defStyleAttr);
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -94,7 +112,42 @@ public class CompetitionView extends CardView {
 
             layout.addView(bLayout, layoutParams);
 
-        this.addView(layout);
+        outerLayout.addView(layout);
+
+        if(buttonType == ButtonType.JOIN) {
+            button = new Button(context);
+            button.setBackgroundColor(0xFF00C907);
+            button.setText("Bli med");
+            button.setVisibility(GONE);
+            outerLayout.addView(button);
+
+            button.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        } else if(buttonType == ButtonType.WITHDRAW) {
+            button = new Button(context);
+            button.setBackgroundColor(0xFFDE0B0B);
+            button.setTextColor(0xFFFFFFFF);
+            button.setText("Trekk deg");
+            button.setVisibility(GONE);
+            outerLayout.addView(button);
+
+            button.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+
+        this.addView(outerLayout);
+
+        if(button != null) {
+            setOnClickListener(this);
+        }
     }
 
     public void setCompetition(Competition competition) {
@@ -105,5 +158,21 @@ public class CompetitionView extends CardView {
         progress.setProgress(competition.getWalkedSteps());
         difficulty.setRating(competition.getDifficulty());
         duration.setText(competition.getDurationDays() + "d");
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(button != null) {
+            if(button.getVisibility() == GONE)
+                button.setVisibility(VISIBLE);
+            else
+                button.setVisibility(GONE);
+        }
+    }
+
+    public enum ButtonType {
+        NONE,
+        JOIN,
+        WITHDRAW
     }
 }
