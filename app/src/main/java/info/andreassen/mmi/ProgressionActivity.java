@@ -44,14 +44,14 @@ public class ProgressionActivity extends AppCompatActivity {
     private static SortedSet<ListEntry> highScoreList = new TreeSet();
 
     static {
-        highScoreList.add(new ListEntry("Gunnar", 5000));
-        highScoreList.add(new ListEntry("Rolf", 15000));
-        highScoreList.add(new ListEntry("Peder", 22000));
-        highScoreList.add(new ListEntry("Berit", 55000));
-        highScoreList.add(new ListEntry("Veronica", 7481));
-        highScoreList.add(new ListEntry("Rolf-Arne", 9814));
-        highScoreList.add(new ListEntry("Reidun", 100000));
-        highScoreList.add(new ListEntry("Per-Ove", 20000));
+        highScoreList.add(new ListEntry("Gunnar Rolfsen", 5000));
+        highScoreList.add(new ListEntry("Rolf Pedersen", 15000));
+        highScoreList.add(new ListEntry("Peder Arnesen", 22000));
+        highScoreList.add(new ListEntry("Berit Heidal", 55000));
+        highScoreList.add(new ListEntry("Veronica Langevåg", 7481));
+        highScoreList.add(new ListEntry("Rolf-Arne Larsen", 9814));
+        highScoreList.add(new ListEntry("Reidun Andreassen", 100000));
+        highScoreList.add(new ListEntry("Per-Ove Hanssen", 20000));
     }
 
     /**
@@ -113,7 +113,8 @@ public class ProgressionActivity extends AppCompatActivity {
                 LinearLayout listContainer = (LinearLayout) rootView.findViewById(R.id.listContainer);
 
                 SortedSet<ListEntry> set = new TreeSet(highScoreList);
-                ListEntry listEntry = new ListEntry("Jan", MainActivity.getCurrentCompetition().getWalkedSteps());
+                String name = MainActivity.anonymous ? "Anonym" : "Jan Johansen";
+                ListEntry listEntry = new ListEntry(name, MainActivity.getCurrentCompetition().getWalkedSteps());
                 set.add(listEntry);
 
                 int number = 1;

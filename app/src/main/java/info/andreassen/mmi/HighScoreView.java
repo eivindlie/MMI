@@ -40,6 +40,7 @@ public class HighScoreView extends CardView {
         layout.addView(layout2);
         
         TextView txtName = new TextView(context);
+        txtName.setTypeface(Typeface.DEFAULT_BOLD);
         txtName.setTextSize(18);
         txtName.setText(name);
         layout2.addView(txtName);
