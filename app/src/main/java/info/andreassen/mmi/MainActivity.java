@@ -105,20 +105,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void updateCompetition() {
-        int walkedSteps = currentCompetition.getWalkedSteps();
-        int totalSteps = currentCompetition.getTotalSteps();
-        ((TextView) findViewById(R.id.cur_compo_name)).setText(currentCompetition.getName());
-        ((TextView) findViewById(R.id.cur_compo_steps)).setText(String.format(Locale.GERMANY, "%,d/%,d skritt", walkedSteps, totalSteps));
-        ((TextView) findViewById(R.id.cur_compo_days_left)).setText(currentCompetition.getDurationDays() + "d");
-        ((TextView) findViewById(R.id.steps_today)).setText(Integer.toString(walkedSteps));
-        ((TextView) findViewById(R.id.avg_steps)).setText(Integer.toString(walkedSteps));
-
-
-        ((RatingBar) findViewById(R.id.cur_compo_difficulty)).setRating(currentCompetition.getDifficulty());
-
-        ((ProgressBar) findViewById(R.id.cur_compo_progress)).setMax(totalSteps);
-        ((ProgressBar) findViewById(R.id.cur_compo_progress)).setProgress(walkedSteps);
-
+        ((CompetitionView) findViewById(R.id.currentCompo)).setCompetition(currentCompetition);
     }
 
     public static Competition getCurrentCompetition() {
