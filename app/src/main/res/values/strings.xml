@@ -10,4 +10,5 @@
     <string name="nav_progression">Progresjon</string>
     <string name="nav_register_steps">Registrer skritt</string>
     <string name="nav_profile">Min profil</string>
+    <string name="title_activity_start">StartActivity</string>
 </resources>

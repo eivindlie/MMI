@@ -1,6 +1,8 @@
 package info.andreassen.mmi;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -57,11 +59,11 @@ public class CompetitionView extends CardView implements View.OnClickListener {
     private void buildView(Context context, AttributeSet attrs, int defStyleAttr, ButtonType buttonType) {
         this.buttonType = buttonType;
 
-        outerLayout = new LinearLayout(context, attrs, defStyleAttr);
+        outerLayout = new LinearLayout(context);
         outerLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         outerLayout.setOrientation(LinearLayout.VERTICAL);
 
-        layout = new LinearLayout(context, attrs, defStyleAttr);
+        layout = new LinearLayout(context);
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(48, 48, 48, 48);
@@ -124,7 +126,10 @@ public class CompetitionView extends CardView implements View.OnClickListener {
             button.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    MainActivity.setCurrentCompetition(competition);
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    getContext().startActivity(intent);
+                    ((Activity) getContext()).finish();
                 }
             });
         } else if(buttonType == ButtonType.WITHDRAW) {
@@ -138,7 +143,11 @@ public class CompetitionView extends CardView implements View.OnClickListener {
             button.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    MainActivity.getCurrentCompetition().resetSteps();
+                    MainActivity.setCurrentCompetition(null);
+                    Intent intent = new Intent(getContext(), StartActivity.class);
+                    getContext().startActivity(intent);
+                    ((Activity) getContext()).finish();
                 }
             });
         }

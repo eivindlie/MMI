@@ -43,4 +43,8 @@ public class Competition {
         walkedSteps += steps;
         if(walkedSteps > totalSteps) walkedSteps = totalSteps;
     }
+
+    public void resetSteps() {
+        walkedSteps = 0;
+    }
 }

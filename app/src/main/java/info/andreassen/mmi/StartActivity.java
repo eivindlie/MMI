@@ -1,7 +1,9 @@
 package info.andreassen.mmi;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,18 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.Space;
 
-public class MainActivity extends AppCompatActivity
+public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
-    private static Competition currentCompetition = null;
-    public static boolean anonymous = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -33,7 +33,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        updateCompetition();
+
+        LinearLayout list = (LinearLayout) findViewById(R.id.compList);
+
+        for(Competition c : CompetitionsActivity.competitions) {
+            CompetitionView competitionView = new CompetitionView(this, CompetitionView.ButtonType.JOIN);
+            competitionView.setCompetition(c);
+            list.addView(competitionView);
+
+            Space space = new Space(getApplicationContext());
+            space.setMinimumHeight(32);
+            list.addView(space);
+        }
     }
 
     @Override
@@ -49,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.start, menu);
         return true;
     }
 
@@ -69,44 +80,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_compo) {
-            Intent intent = new Intent(this, CompetitionsActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_progression) {
-
-        } else if (id == R.id.nav_register_steps) {
-            Intent intent = new Intent(this, RegisterStepsActivity.class);
-            startActivityForResult(intent, 1);
+        if (id == R.id.nav_compo) {
+            // Handle the camera action
         } else if (id == R.id.nav_profile) {
-            Intent intent = new Intent(this, ProfileActivity.class);
-            startActivity(intent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(data.getStringExtra("status")) {
-            case "competitionUpdated":
-                updateCompetition();
-                break;
-        }
-    }
-
-    private void updateCompetition() {
-        if(getCurrentCompetition() != null)
-            ((CompetitionView) findViewById(R.id.currentCompo)).setCompetition(currentCompetition);
-    }
-
-    public static void setCurrentCompetition(Competition competition) {
-        currentCompetition = competition;
-    }
-
-    public static Competition getCurrentCompetition() {
-        return currentCompetition;
     }
 }

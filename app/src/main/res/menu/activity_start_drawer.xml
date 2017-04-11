@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_compo"
+        android:title="@string/nav_compo" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="@string/nav_profile" />
+
+</menu>
