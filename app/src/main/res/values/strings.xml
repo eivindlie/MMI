@@ -11,4 +11,6 @@
     <string name="nav_register_steps">Registrer skritt</string>
     <string name="nav_profile">Min profil</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_progression">Progresjon</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
